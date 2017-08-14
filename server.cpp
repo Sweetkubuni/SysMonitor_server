@@ -5,20 +5,29 @@
 #include <evhttp.h>
 int main()
 {
-  if (!event_init())
-  {
-    std::cerr << "Failed to init libevent." << std::endl;
-    return -1;
-  }
-  char const SrvAddress[] = "0.0.0.0";
-  std::uint16_t SrvPort = 80;
-  std::unique_ptr<evhttp, decltype(&evhttp_free)> Server(evhttp_start(SrvAddress, SrvPort), &evhttp_free);
-  if (!Server)
-  {
-    std::cerr << "Failed to init http server." << std::endl;
-    return -1;
-  }
-  void (*OnReq)(evhttp_request *req, void *) = [] (evhttp_request *req, void * arg)
+
+  event_base *base;
+	evhttp *http;
+	evhttp_bound_socket *handle;
+  
+  base = event_base_new();
+  char const address[] = "0.0.0.0";
+  std::uint16_t port = 80;
+  evhttp_bind_socket_with_handle(
+  
+  if (!base) {
+		std::cout<< "Couldn't create an event_base: exiting\n");
+		return 1;
+	}
+    
+  /* Create a new evhttp object to handle requests. */
+	http = evhttp_new(base);
+	if (!http) {
+		std::cout <<"couldn't create evhttp. Exiting.\n";
+		return 1;
+	}
+    
+  void (*onReq)(evhttp_request *req, void *) = [] (evhttp_request *req, void * arg)
   {
     std::cout << "We got request!!!!\n\n";
     evbuffer *buf;
@@ -36,11 +45,11 @@ int main()
     evhttp_send_reply(req, 200, "OK", nullptr);
   };
   
-  evhttp_set_gencb(Server.get(), OnReq, nullptr);
-  if (event_dispatch() == -1)
-  {
-    std::cerr << "Failed to run messahe loop." << std::endl;
-    return -1;
-  }
+ evhttp_set_gencb(http, onReq, nullptr);
+ handle = evhttp_bind_socket_with_handle(http, address, port);
+ if (!handle) {
+		std::cout << "couldn't bind to port" << port << "Exiting.\n";
+		return 1;
+	}
   return 0;
 }
