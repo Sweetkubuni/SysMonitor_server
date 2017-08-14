@@ -20,6 +20,7 @@ int main()
   }
   void (*OnReq)(evhttp_request *req, void *) = [] (evhttp_request *req, void * arg)
   {
+    std::cout << "We got request!!!!\n\n";
     evbuffer *buf;
     buf = evhttp_request_get_input_buffer(req);
     if(buf == nullptr)
