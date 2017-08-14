@@ -11,7 +11,7 @@ int main()
     return -1;
   }
   char const SrvAddress[] = "127.0.0.1";
-  std::uint16_t SrvPort = 5555;
+  std::uint16_t SrvPort = 80;
   std::unique_ptr<evhttp, decltype(&evhttp_free)> Server(evhttp_start(SrvAddress, SrvPort), &evhttp_free);
   if (!Server)
   {
