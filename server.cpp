@@ -10,7 +10,7 @@ int main()
     std::cerr << "Failed to init libevent." << std::endl;
     return -1;
   }
-  char const SrvAddress[] = "127.0.0.1";
+  char const SrvAddress[] = "0.0.0.0";
   std::uint16_t SrvPort = 80;
   std::unique_ptr<evhttp, decltype(&evhttp_free)> Server(evhttp_start(SrvAddress, SrvPort), &evhttp_free);
   if (!Server)
