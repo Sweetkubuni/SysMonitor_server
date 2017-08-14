@@ -15,7 +15,7 @@ int main()
   std::uint16_t port = 80;
  
   if (!base) {
-		std::cout<< "Couldn't create an event_base: exiting\n");
+		std::cout<< "Couldn't create an event_base: exiting\n";
 		return 1;
 	}
     
