@@ -31,7 +31,7 @@ int main()
     char cbuf[4096];
     int n = evbuffer_remove(buf, cbuf, sizeof(cbuf));
     std::string msg(cbuf, n);
-    cout << "MESSAGE: " << msg << "\n";
+    std::cout << "MESSAGE: " << msg << "\n";
     evhttp_send_reply(req, 200, "OK", nullptr);
   };
   
