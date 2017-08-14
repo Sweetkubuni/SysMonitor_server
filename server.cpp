@@ -51,5 +51,6 @@ int main()
 		std::cout << "couldn't bind to port" << port << "Exiting.\n";
 		return 1;
 	}
+  event_base_dispatch(base);
   return 0;
 }
