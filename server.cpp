@@ -13,8 +13,7 @@ int main()
   base = event_base_new();
   char const address[] = "0.0.0.0";
   std::uint16_t port = 80;
-  evhttp_bind_socket_with_handle(
-  
+ 
   if (!base) {
 		std::cout<< "Couldn't create an event_base: exiting\n");
 		return 1;
