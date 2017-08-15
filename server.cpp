@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 #include <evhttp.h>
+
+#include "rapidjson/document.h"
+
 int main()
 {
 
@@ -40,9 +43,25 @@ int main()
     char data[4096];
     int n = evbuffer_get_length(buf);
      evbuffer_copyout(buf, data, n);
+    bool failed = false;
+    // parse json file
     std::string msg(data, n);
-    std::cout << "MESSAGE: " << msg << "\n";
-    evhttp_send_reply(req, 200, "OK", nullptr);
+    rapidjson::Document parsedocument;
+    if(parsedocument.Parse<0>(msg.c_str()).HasParseError())
+    {
+      failed = true;
+      evhttp_send_reply(req, 400, "BAD", nullptr);
+    }
+
+    std::String key = parsedocument["key"].GetString();
+    std::uint64_t ram_total       = parsedocument["ram total"].GetInt();
+    std::uint64_t ram_used        = parsedocument["ram used"].GetInt();
+    double        cpu_percentage  = parsedocument["cpu percentage"].GetDouble();
+
+    cout << "KEY: "<< key << "cpu_percentage: " << cpu_percentage <<"\n";
+    if(!failed){
+      evhttp_send_reply(req, 200, "OK", nullptr);
+    }
   };
   
  evhttp_set_gencb(http, onReq, nullptr);
