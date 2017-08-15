@@ -58,7 +58,7 @@ int main()
     std::uint64_t ram_used        = parsedocument["ram used"].GetInt();
     double        cpu_percentage  = parsedocument["cpu percentage"].GetDouble();
 
-    std::cout << "KEY: "<< key << "cpu_percentage: " << cpu_percentage <<"\n";
+    std::cout << "KEY: "<< key << "cpu_percentage: " << cpu_percentage << "ram_total"<< ram_total << "ram_used" << ram_used << "\n";
     if(!failed){
       evhttp_send_reply(req, 200, "OK", nullptr);
     }
