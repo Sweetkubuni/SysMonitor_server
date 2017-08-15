@@ -53,12 +53,12 @@ int main()
       evhttp_send_reply(req, 400, "BAD", nullptr);
     }
 
-    std::String key = parsedocument["key"].GetString();
+    std::string key = parsedocument["key"].GetString();
     std::uint64_t ram_total       = parsedocument["ram total"].GetInt();
     std::uint64_t ram_used        = parsedocument["ram used"].GetInt();
     double        cpu_percentage  = parsedocument["cpu percentage"].GetDouble();
 
-    cout << "KEY: "<< key << "cpu_percentage: " << cpu_percentage <<"\n";
+    std::cout << "KEY: "<< key << "cpu_percentage: " << cpu_percentage <<"\n";
     if(!failed){
       evhttp_send_reply(req, 200, "OK", nullptr);
     }
