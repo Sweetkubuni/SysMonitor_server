@@ -37,9 +37,10 @@ int main()
       return;
     }
 
-    char cbuf[4096];
-    int n = evbuffer_remove(buf, cbuf, sizeof(cbuf));
-    std::string msg(cbuf, n);
+    char data[4096];
+    int n = evbuffer_get_length(buf);
+     evbuffer_copyout(buf, data, n);
+    std::string msg(data, n);
     std::cout << "MESSAGE: " << msg << "\n";
     evhttp_send_reply(req, 200, "OK", nullptr);
   };
